@@ -1,29 +1,23 @@
-function Drawer(){
+function Drawer({ onClose, onRemove, items = []}){
     return(
-        <div style={{display: 'none'}} className="overlay">
+        <div className="overlay">
         <div className="drawer">
-        <h2 className="d-flex justify-between mb-30 ">Кошик <img className="cu-p" src="/img/btn-remove.svg" alt="Remove"/></h2>
-
+        <h2 className="d-flex justify-between mb-30 ">Кошик <img className="cu-p" src="/img/btn-remove.svg" alt="Close" onClick={onClose}/></h2>
+        {
+          items.length > 0 ? (
+            <div>
           <div className="items">
-          <div className="cartItem d-flex align-center mb-20" >
+          {items.map((obj) => (
+            <div className="cartItem d-flex align-center mb-20" >
           
-          <div style={{backgroundImage: 'url(/img/sneakers/1.jpg)'}} className="cartItemImg"></div>
-          <div className="mr-20 flex">
-            <p className="mb-5">Чоловічі Кросівки Nike Blazer Mid Suede</p>
-            <b>5000 грн.</b>
+            <div style={{backgroundImage: `url(${obj.imageUrl})`}} className="cartItemImg"></div>
+            <div className="mr-20 flex">
+              <p className="mb-5">{obj.title}</p>
+              <b>{obj.price} грн.</b>
+            </div>
+            <img onClick={() => onRemove(obj.id)} className="removeBtn" src="/img/btn-remove.svg" alt="Remove"/>
           </div>
-          <img className="removeBtn" src="/img/btn-remove.svg" alt="Remove"/>
-        </div>
-
-        <div className="cartItem d-flex align-center" >
-          
-          <div style={{backgroundImage: 'url(/img/sneakers/1.jpg)'}} className="cartItemImg"></div>
-          <div className="mr-20 flex">
-            <p className="mb-5">Чоловічі Кросівки Nike Blazer Mid Suede</p>
-            <b>5000 грн.</b>
-          </div>
-          <img className="removeBtn" src="/img/btn-remove.svg" alt="Remove"/>
-        </div>
+          ))}
           </div>
           <div className="cartTotalBlock">
           <ul>
@@ -41,6 +35,18 @@ function Drawer(){
           </ul>
           <button className="greenButton">Зробити замовлення <img src="img/arrow.svg" alt="Arrow"/></button>
           </div>
+          </div>
+          ) : 
+                  <div className="cartEmpty d-flex align-center justify-center flex-column flex">
+                  <img className="mb-20" width={120} height={120} src="/img/empty-cart.jpg" alt="Empty cart" />
+                  <h2>Кошик порожній</h2>
+                  <p className="opacity-6">Додайте хоча б одну пару кросівок, щоб зробити замовлення.</p>
+                  <button onClick={onClose} className="greenButton">
+                    <img src="/img/arrow.svg" alt="Arrow"/>Повернутися назад
+                  </button>
+                </div>
+        
+        } 
           
       </div>
       </div>
